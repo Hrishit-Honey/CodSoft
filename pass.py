@@ -1,45 +1,32 @@
-from tkinter import *
+import tkinter as tk
+from tkinter import ttk
 import random
 import string
 
-root = Tk()
-root.geometry("400x300")
-root.title("Password Geenrator")
+def generate_password(length):
+    characters = string.ascii_letters + string.digits + string.punctuation
+    password = ''.join(random.choice(characters) for _ in range(length))
+    return password
+
+def generate_button_clicked():
+    password_length = int(entry_length.get())
+    generated_password = generate_password(password_length)
+    label_result.config(text=f"Generated Password: {generated_password}")
+
+root = tk.Tk()
+root.title("Password Generator")
 
 
-def gen():
-    num = int(e1.get())
-    s1 = string.ascii_lowercase
-    s2 = string.ascii_uppercase
-    s3 = string.digits
-    s4 = string.punctuation
+label_length = ttk.Label(root, text="Enter password length:")
+label_length.grid(row=0, column=0)
 
-    s = []
-    s.extend(list(s1))
-    s.extend(list(s2))
-    s.extend(list(s3))
-    s.extend(list(s4))
+entry_length = ttk.Entry(root)
+entry_length.grid(row=0, column=1)
 
-    random.shuffle(s)
-    password = s[0:num]
+generate_button = ttk.Button(root, text="Generate Password", command=generate_button_clicked)
+generate_button.grid(row=1, column=0)
 
-    l4 = Label(root, text="Password:", font="time 15 bold")
-    l4.place(x=30, y=250)
-
-    l5 = Label(root, text=password, font="time 15 bold", width=24, highlightbackground="blue")
-    l5.place(x=150, y=250)
-
-
-l1 = Label(root, text="Password Generator app", font="time 15 bold")
-l1.place(x=30, y=90)
-
-l2 = Label(root, text="Enter password length", font="time 15 bold")
-l2.place(x=30, y=133)
-
-e1 = Entry(root, width=46, bd=2, font="time 15 bold")
-e1.place(x=30, y=133)
-
-button = Button(root, text="Generate Paasword", fg="white", highlightbackground="blue", font="time 15 bold", width=34)
-button.place(x=30, y=180)
+label_result = ttk.Label(root, text="")
+label_result.grid(row=2, column=0)
 
 root.mainloop()
